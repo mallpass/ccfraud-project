@@ -1,8 +1,18 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders the app title and upload form', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  
+  // Check for main title
+  const heading = screen.getByText(/credit card fraud detector/i);
+  expect(heading).toBeInTheDocument();
+
+  // Check for file input label
+  const label = screen.getByLabelText(/upload csv file/i);
+  expect(label).toBeInTheDocument();
+
+  // Check specifically for the upload button
+  const uploadButton = screen.getByRole('button', { name: /upload csv/i });
+  expect(uploadButton).toBeInTheDocument();
 });
