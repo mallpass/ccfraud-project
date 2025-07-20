@@ -1,17 +1,21 @@
-# ccfraud-project
+# Credit Card Fraud Detection devops/mlops project
+Matthew Allpass
 
+## Goals
+Hands on experience with techs like docker, supabase, render and CI/CD workflows
+Simulate a ml system using versioned data and model retraining
+Build end to end deployable project 
 
-## Project Overview
-devops/mlops project by Matthew Allpass
+## Dataset
+Found here: (https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud)
+~284,000 samples, very imbalanced dataset with only ~500 cases of fraud
+Initial model trained on ~100,000 samples, the rest of the data was streamed in through the frontend to simuulate "real-time" retraining.
 
-goal is to get more hands on experience with ci/cd, docker, deployment, and to delve into mlops   
-dataset used is found here: https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud  
-neural network model v1 will be made with ~100k samples of the ~300k total samples found in the dataset, the rest will be fed in through the frontend to simulate new, "real" data
-  
-Frontend: REACT - handles new csv file uploads  
-Backend: FastAPI - handles model use, light data processing, and storing data in db  
-Database: PostgreSQL - hosted on supabase, handles sample storage for model retraining  
+## Techs  
+Frontend: REACT - handles new csv file uploads and displaying results
+Backend: FastAPI - handles model and database use, input validation  
+Database: PostgreSQL - hosted on supabase, handles sample storage for model (re)training  
 ML Model: Keras - initial model trained with jupyter notebook, re-training proceedures baked into backend/mlops tech  
-Devops: Github, Docker   
+Devops: Github actions, Docker   
 MLops: MLFlow  
 Hosting: Render  
