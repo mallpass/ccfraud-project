@@ -1,0 +1,5 @@
+# Python
+__pycache__/
+
+# Backend-specific (ignore env inside backend folder)
+backend/.env
