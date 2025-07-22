@@ -39,9 +39,9 @@ jobs:
         run: |
           cd backend
           pip install -r requirements.txt
+          pip install pytest
 
       - name: Run backend tests
         run: |
           cd backend
-          # Placeholder until backend tests are added
-          echo "Backend tests will go here"
+          python -m pytest
