@@ -1,9 +1,12 @@
-from sqlalchemy import create_engine, Column, Integer, Float, String
+from sqlalchemy import create_engine, Column, Integer, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from dotenv import load_dotenv
+import os
 
-# Replace with your Supabase or local PostgreSQL URL, e.g., 'postgresql://user:pass@host:port/db'
-DATABASE_URL = "sqlite:///./test.db"  # Use SQLite for now; switch to PostgreSQL later
+load_dotenv()
+print("DATABASE_URL:", os.getenv("DATABASE_URL"))
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
