@@ -3,3 +3,12 @@ __pycache__/
 
 # Backend-specific (ignore env inside backend folder)
 backend/.env
+
+mlruns/
+__pycache__/
+*.pyc
+*.pkl
+*.pth
+.env
+
+ccx.csv
