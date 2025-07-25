@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/Matthew/ccfraud-project/mlruns/110392388805571578/18bba0c808dc4fc4b95ed56c210f2e2c/artifacts
+end_time: 1753387926163
+entry_point_name: ''
+experiment_id: '110392388805571578'
+lifecycle_stage: active
+run_id: 18bba0c808dc4fc4b95ed56c210f2e2c
+run_name: overjoyed-shark-607
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753387870237
+status: 3
+tags: []
+user_id: Matthew

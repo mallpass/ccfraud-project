@@ -1,0 +1,10 @@
+artifact_location: file:///C:/Users/Matthew/ccfraud-project/mlruns/110392388805571578/models/m-602cce274c6d42efb3e03b84e5360f6f/artifacts
+creation_timestamp: 1753391876488
+experiment_id: '110392388805571578'
+last_updated_timestamp: 1753391880528
+model_id: m-602cce274c6d42efb3e03b84e5360f6f
+model_type: null
+name: neural_net_model
+source_run_id: 90a8623f63f4449b831e9249d0b85ef7
+status: 2
+status_message: null

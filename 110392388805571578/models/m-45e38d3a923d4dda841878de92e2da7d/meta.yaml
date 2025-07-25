@@ -1,0 +1,10 @@
+artifact_location: file:///C:/Users/Matthew/ccfraud-project/mlruns/110392388805571578/models/m-45e38d3a923d4dda841878de92e2da7d/artifacts
+creation_timestamp: 1753391870881
+experiment_id: '110392388805571578'
+last_updated_timestamp: 1753391874687
+model_id: m-45e38d3a923d4dda841878de92e2da7d
+model_type: null
+name: random_forest_model
+source_run_id: 90a8623f63f4449b831e9249d0b85ef7
+status: 2
+status_message: null

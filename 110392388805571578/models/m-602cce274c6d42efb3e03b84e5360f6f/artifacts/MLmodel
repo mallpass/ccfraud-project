@@ -1,0 +1,23 @@
+artifact_path: file:///C:/Users/Matthew/ccfraud-project/mlruns/110392388805571578/models/m-602cce274c6d42efb3e03b84e5360f6f/artifacts
+flavors:
+  python_function:
+    config:
+      device: null
+    data: data
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.pytorch
+    pickle_module_name: mlflow.pytorch.pickle_module
+    python_version: 3.13.1
+  pytorch:
+    code: null
+    model_data: data
+    pytorch_version: 2.7.1+cpu
+mlflow_version: 3.1.4
+model_id: m-602cce274c6d42efb3e03b84e5360f6f
+model_size_bytes: 23257
+model_uuid: m-602cce274c6d42efb3e03b84e5360f6f
+prompts: null
+run_id: 90a8623f63f4449b831e9249d0b85ef7
+utc_time_created: '2025-07-24 21:17:56.530348'

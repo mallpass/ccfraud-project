@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/Matthew/ccfraud-project/mlruns/110392388805571578/b29f1015e89146eba932a95eb32ff22b/artifacts
+end_time: 1753478249308
+entry_point_name: ''
+experiment_id: '110392388805571578'
+lifecycle_stage: active
+run_id: b29f1015e89146eba932a95eb32ff22b
+run_name: orderly-cow-196
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753478184792
+status: 4
+tags: []
+user_id: Matthew

@@ -1,0 +1,6 @@
+artifact_location: file:///C:/Users/Matthew/ccfraud-project/mlruns/110392388805571578
+creation_time: 1753387870030
+experiment_id: '110392388805571578'
+last_update_time: 1753387870030
+lifecycle_stage: active
+name: CreditCardFraudDetection

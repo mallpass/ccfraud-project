@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/Matthew/ccfraud-project/mlruns/110392388805571578/792817b35e6d4a81a9c52d621b2ba005/artifacts
+end_time: 1753388089066
+entry_point_name: ''
+experiment_id: '110392388805571578'
+lifecycle_stage: active
+run_id: 792817b35e6d4a81a9c52d621b2ba005
+run_name: likeable-sloth-932
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753388036493
+status: 3
+tags: []
+user_id: Matthew

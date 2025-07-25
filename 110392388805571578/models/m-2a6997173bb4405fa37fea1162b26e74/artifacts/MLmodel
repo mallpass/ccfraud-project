@@ -1,0 +1,22 @@
+artifact_path: file:///C:/Users/Matthew/ccfraud-project/mlruns/110392388805571578/models/m-2a6997173bb4405fa37fea1162b26e74/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.13.1
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.6.1
+mlflow_version: 3.1.4
+model_id: m-2a6997173bb4405fa37fea1162b26e74
+model_size_bytes: 1032422
+model_uuid: m-2a6997173bb4405fa37fea1162b26e74
+prompts: null
+run_id: 792817b35e6d4a81a9c52d621b2ba005
+utc_time_created: '2025-07-24 20:14:45.528084'
