@@ -8,3 +8,6 @@ python-dotenv
 pytest
 httpx
 python-multipart
+mlflow
+torch>=2.1.0,<3.0.0
+scikit-learn
