@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 from sqlalchemy.orm import Session
@@ -96,6 +96,35 @@ async def upload_csv(file: UploadFile = File(...)):
         "message": "CSV uploaded and stored successfully",
         "rows": total_rows
     }
+
+
+@app.post("/predict")
+async def predict_csv(file: UploadFile = File(...)):
+    contents = await file.read()
+    try:
+        df = pd.read_csv(io.StringIO(contents.decode('utf-8')))
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Invalid CSV: {e}")
+
+    expected_columns = [
+        'Time', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10',
+        'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20',
+        'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28', 'Amount', 'Class'
+    ]
+    if list(df.columns) != expected_columns:
+        raise HTTPException(status_code=400, detail="CSV format mismatch")
+
+    # Extract features and labels
+    X = df.drop(columns=["Class"])
+    y_true = df["Class"].values
+
+    return {
+        "message": "CSV validated and parsed successfully.",
+        "num_rows": len(df),
+        "features_shape": X.shape,
+        "y_true_preview": y_true[:5].tolist()
+    }
+
 
 @app.get("/health")
 def health():
