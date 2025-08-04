@@ -118,3 +118,69 @@ def test_predict_empty_file():
     assert response.status_code == 400
     assert "Invalid CSV" in response.json()["detail"]
 
+def test_predict_valid_csv():
+    csv_content = (
+        "Time,V1,V2,V3,V4,V5,V6,V7,V8,V9,V10,"
+        "V11,V12,V13,V14,V15,V16,V17,V18,V19,V20,"
+        "V21,V22,V23,V24,V25,V26,V27,V28,Amount,Class\n"
+        "0,-1.3,-0.07,2.5,1.3,-0.3,0.4,0.2,0.09,0.3,0.09,"
+        "-0.55,-0.61,-0.99,-0.31,1.46,-0.47,0.2,0.02,0.4,0.25,"
+        "-0.01,0.27,0.02,0.07,0.3,0.005,0.03,0.0008,149.62,0\n"
+    )
+    files = {"file": ("valid.csv", csv_content, "text/csv")}
+    response = client.post("/predict", files=files)
+    
+    # Should succeed if model exists, or give 500 if no model found
+    if response.status_code == 200:
+        data = response.json()
+        assert data["message"] == "Predictions completed successfully"
+        assert data["num_rows"] == 1
+        assert "accuracy" in data
+        assert "predictions_preview" in data
+        assert "model_used" in data
+    elif response.status_code == 500:
+        # Expected if no trained model exists in test environment
+        assert "No trained model found" in response.json()["detail"]
+    else:
+        assert False, f"Unexpected status code: {response.status_code}"
+
+def test_predict_missing_class_column():
+    bad_csv = (
+        "Time,V1,V2,V3,V4,V5,V6,V7,V8,V9,V10,"
+        "V11,V12,V13,V14,V15,V16,V17,V18,V19,V20,"
+        "V21,V22,V23,V24,V25,V26,V27,V28,Amount\n"
+        "0,-1.3,-0.07,2.5,1.3,-0.3,0.4,0.2,0.09,0.3,0.09,"
+        "-0.55,-0.61,-0.99,-0.31,1.46,-0.47,0.2,0.02,0.4,0.25,"
+        "-0.01,0.27,0.02,0.07,0.3,0.005,0.03,0.0008,149.62\n"
+    )
+    files = {"file": ("bad.csv", bad_csv, "text/csv")}
+    response = client.post("/predict", files=files)
+    assert response.status_code == 400
+    assert "CSV format mismatch" in response.json()["detail"]
+
+def test_predict_empty_file():
+    files = {"file": ("empty.csv", "", "text/csv")}
+    response = client.post("/predict", files=files)
+    assert response.status_code == 400
+    assert "Invalid CSV" in response.json()["detail"]
+
+def test_predict_multiple_rows():
+    csv_content = (
+        "Time,V1,V2,V3,V4,V5,V6,V7,V8,V9,V10,"
+        "V11,V12,V13,V14,V15,V16,V17,V18,V19,V20,"
+        "V21,V22,V23,V24,V25,V26,V27,V28,Amount,Class\n"
+    )
+    row = "0,-1.3,-0.07,2.5,1.3,-0.3,0.4,0.2,0.09,0.3,0.09," \
+          "-0.55,-0.61,-0.99,-0.31,1.46,-0.47,0.2,0.02,0.4,0.25," \
+          "-0.01,0.27,0.02,0.07,0.3,0.005,0.03,0.0008,149.62,0\n"
+    csv_content += row * 3
+
+    files = {"file": ("multi.csv", csv_content, "text/csv")}
+    response = client.post("/predict", files=files)
+    
+    if response.status_code == 200:
+        data = response.json()
+        assert data["num_rows"] == 3
+        assert len(data["predictions_preview"]) <= 10 
+    elif response.status_code == 500:
+        assert "No trained model found" in response.json()["detail"]

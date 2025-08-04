@@ -48,7 +48,7 @@ def evaluate_model(model, X_val, y_val, is_torch=False):
 
 def save_model_with_metadata(model, model_path, metadata_path, metadata, is_torch):
     if is_torch:
-        torch.save(model.state_dict(), model_path)
+        torch.save(model, model_path)
     else:
         import joblib
         joblib.dump(model, model_path)

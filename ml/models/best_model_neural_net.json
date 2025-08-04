@@ -1,20 +1,22 @@
 {
   "model_type": "neural_net",
-  "auprc": 0.8613900102104468,
-  "accuracy": 0.9853066120245889,
-  "timestamp": "2025-07-25T22:10:00.748850+00:00",
+  "auprc": 0.8481096258881706,
+  "accuracy": 0.9994006892074114,
+  "timestamp": "2025-08-04T19:43:10.850957+00:00",
   "hyperparams": {
     "layers": [
+      128,
+      64,
       32
     ],
     "dropout": 0.0,
     "lr": 0.001,
-    "loss_type": "weighted_bce",
+    "loss_type": "bce",
     "batch_size": 1024,
     "optimizer": "adam",
     "activation": "tanh",
     "epochs": 50,
-    "accuracy": 0.9853066120245889,
-    "auprc": 0.8613900102104468
+    "accuracy": 0.9994006892074114,
+    "auprc": 0.8481096258881706
   }
 }
