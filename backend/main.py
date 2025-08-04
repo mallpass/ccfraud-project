@@ -3,7 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine, Base, Transaction
-import io
+import io, os, json, joblib, torch
+from ml.modeling import NNet  
+from sklearn.metrics import accuracy_score
 
 app = FastAPI()
 
@@ -45,39 +47,18 @@ async def upload_csv(file: UploadFile = File(...)):
 
             transactions = []
             for _, row in chunk.iterrows():
-                # Validate and cast all values strictly
                 transaction = Transaction(
                     time=float(row['Time']),
-                    v1=float(row['V1']),
-                    v2=float(row['V2']),
-                    v3=float(row['V3']),
-                    v4=float(row['V4']),
-                    v5=float(row['V5']),
-                    v6=float(row['V6']),
-                    v7=float(row['V7']),
-                    v8=float(row['V8']),
-                    v9=float(row['V9']),
-                    v10=float(row['V10']),
-                    v11=float(row['V11']),
-                    v12=float(row['V12']),
-                    v13=float(row['V13']),
-                    v14=float(row['V14']),
-                    v15=float(row['V15']),
-                    v16=float(row['V16']),
-                    v17=float(row['V17']),
-                    v18=float(row['V18']),
-                    v19=float(row['V19']),
-                    v20=float(row['V20']),
-                    v21=float(row['V21']),
-                    v22=float(row['V22']),
-                    v23=float(row['V23']),
-                    v24=float(row['V24']),
-                    v25=float(row['V25']),
-                    v26=float(row['V26']),
-                    v27=float(row['V27']),
-                    v28=float(row['V28']),
-                    amount=float(row['Amount']),
-                    class_label=int(row['Class'])
+                    v1=float(row['V1']), v2=float(row['V2']), v3=float(row['V3']),
+                    v4=float(row['V4']), v5=float(row['V5']), v6=float(row['V6']),
+                    v7=float(row['V7']), v8=float(row['V8']), v9=float(row['V9']),
+                    v10=float(row['V10']), v11=float(row['V11']), v12=float(row['V12']),
+                    v13=float(row['V13']), v14=float(row['V14']), v15=float(row['V15']),
+                    v16=float(row['V16']), v17=float(row['V17']), v18=float(row['V18']),
+                    v19=float(row['V19']), v20=float(row['V20']), v21=float(row['V21']),
+                    v22=float(row['V22']), v23=float(row['V23']), v24=float(row['V24']),
+                    v25=float(row['V25']), v26=float(row['V26']), v27=float(row['V27']),
+                    v28=float(row['V28']), amount=float(row['Amount']), class_label=int(row['Class'])
                 )
                 transactions.append(transaction)
 
@@ -97,7 +78,6 @@ async def upload_csv(file: UploadFile = File(...)):
         "rows": total_rows
     }
 
-
 @app.post("/predict")
 async def predict_csv(file: UploadFile = File(...)):
     contents = await file.read()
@@ -114,17 +94,45 @@ async def predict_csv(file: UploadFile = File(...)):
     if list(df.columns) != expected_columns:
         raise HTTPException(status_code=400, detail="CSV format mismatch")
 
-    # Extract features and labels
     X = df.drop(columns=["Class"])
     y_true = df["Class"].values
 
-    return {
-        "message": "CSV validated and parsed successfully.",
-        "num_rows": len(df),
-        "features_shape": X.shape,
-        "y_true_preview": y_true[:5].tolist()
-    }
+    models_dir = os.path.join(os.path.dirname(__file__), "..", "ml", "models")
+    
+    print(f"Current file: {__file__}")
+    print(f"Current directory: {os.path.dirname(__file__)}")
+    print(f"Models directory: {models_dir}")
+    print(f"Models directory exists: {os.path.exists(models_dir)}")
+    if os.path.exists(models_dir):
+        print(f"Files in models dir: {os.listdir(models_dir)}")
 
+    model_files = [f for f in os.listdir(models_dir) if f.startswith("best_model_") and f.endswith(".json")]
+    if not model_files:
+        raise HTTPException(status_code=500, detail="No trained model found")
+    
+    metadata_file = model_files[0]
+    model_file = metadata_file.replace(".json", ".pt")
+    
+    model_path = os.path.join(models_dir, model_file)
+    if not os.path.exists(model_path):
+        raise HTTPException(status_code=500, detail=f"Model file not found: {model_file}")
+    
+    model = torch.load(model_path, weights_only=False)
+    model.eval()
+    
+    y_pred = model.use(X.values)  # Returns probabilities
+    y_pred_binary = (y_pred >= 0.5).astype(int).flatten()  # Convert to 0/1 predictions
+    
+    accuracy = accuracy_score(y_true, y_pred_binary)
+
+    return {
+        "message": "Predictions completed successfully",
+        "num_rows": len(df),
+        "accuracy": float(accuracy),
+        "predictions_preview": y_pred_binary[:10].tolist(),  # First 10 predictions
+        "true_labels_preview": y_true[:10].tolist(),  # First 10 true labels
+        "model_used": model_file
+    }
 
 @app.get("/health")
 def health():
