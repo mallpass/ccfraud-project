@@ -3,7 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine, Base, Transaction
-import io, os, json, joblib, torch 
+import io, os, json, joblib, torch
+sys.path.append(os.path.dirname(os.path.dirname(__file__))) 
 from sklearn.metrics import accuracy_score
 
 app = FastAPI()
