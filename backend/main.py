@@ -4,7 +4,6 @@ import pandas as pd
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine, Base, Transaction
 import io, os, json, joblib, torch
-from ml.modeling import NNet  
 from sklearn.metrics import accuracy_score, average_precision_score
 
 import sys
