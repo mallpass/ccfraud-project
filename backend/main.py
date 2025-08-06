@@ -4,9 +4,7 @@ import pandas as pd
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine, Base, Transaction
 import io, os, json, joblib, torch
-from ml.modeling import NNet  
-from sklearn.metrics import accuracy_score, average_precision_score
-
+from sklearn.metrics import accuracy_score
 import sys
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
@@ -124,18 +122,15 @@ async def predict_csv(file: UploadFile = File(...)):
     model = torch.load(model_path, weights_only=False)
     model.eval()
     
-    y_pred_proba = model.use(X.values)  # Returns probabilities
-    y_pred_binary = (y_pred_proba >= 0.5).astype(int).flatten()  # Convert to 0/1 predictions
+    y_pred = model.use(X.values)  # Returns probabilities
+    y_pred_binary = (y_pred >= 0.5).astype(int).flatten()  # Convert to 0/1 predictions
     
     accuracy = accuracy_score(y_true, y_pred_binary)
-    auprc = average_precision_score(y_true, y_pred_proba.flatten())
 
     return {
         "message": "Predictions completed successfully",
         "num_rows": len(df),
         "accuracy": float(accuracy),
-        "auprc": float(auprc),
-        "probability_preview": y_pred_proba.flatten()[:10].tolist(),
         "predictions_preview": y_pred_binary[:10].tolist(),  # First 10 predictions
         "true_labels_preview": y_true[:10].tolist(),  # First 10 true labels
         "model_used": model_file
