@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+const API_BASE = import.meta.env.VITE_API_BASE;
+
 const UploadForm = () => {
   const [file, setFile] = useState(null);
   const [results, setResults] = useState(null);
@@ -17,7 +19,7 @@ const UploadForm = () => {
     formData.append('file', file);
 
     try {
-      const response = await axios.post('http://localhost:8000/upload', formData, {
+      const response = await axios.post(`${API_BASE}/upload`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setResults(response.data);
