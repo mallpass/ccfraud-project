@@ -28,6 +28,8 @@ jobs:
         run: |
           cd frontend
           npm test -- --watchAll=false
+        env:
+          VITE_API_BASE: http://localhost:8000
 
       # === Backend Setup ===
       - name: Set up Python

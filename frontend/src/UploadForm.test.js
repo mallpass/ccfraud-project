@@ -5,6 +5,8 @@ import UploadForm from './UploadForm';
 
 jest.mock('axios');
 
+const expectedBase = process.env.VITE_API_BASE || 'http://localhost:8000';
+
 test('renders upload form', () => {
   render(<UploadForm />);
   expect(screen.getByText('Upload CSV')).toBeInTheDocument();
@@ -26,7 +28,7 @@ test('handles file upload submit', async () => {
 
   await waitFor(() => {
     expect(axios.post).toHaveBeenCalledWith(
-      'http://localhost:8000/upload',
+      `${expectedBase}/upload`,
       expect.any(FormData),
       expect.objectContaining({
         headers: { 'Content-Type': 'multipart/form-data' }
