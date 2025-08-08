@@ -28,7 +28,7 @@ test('handles file upload submit', async () => {
 
   await waitFor(() => {
     expect(axios.post).toHaveBeenCalledWith(
-      `${API_BASE}/upload`,
+      `${process.env.VITE_API_BASE || 'http://localhost:8000'}/upload`,
       expect.any(FormData),
       expect.objectContaining({
         headers: { 'Content-Type': 'multipart/form-data' }

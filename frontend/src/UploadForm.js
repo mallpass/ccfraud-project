@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const API_BASE = import.meta.env.VITE_API_BASE;
+const API_BASE =
+  (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_BASE) ||
+  process.env.VITE_API_BASE ||
+  'http://localhost:8000';
 
 const UploadForm = () => {
   const [file, setFile] = useState(null);
