@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 let apiBase = process.env.VITE_API_BASE || 'http://localhost:8000';
+
+// Access import.meta.env only if supported — use eval so Jest's parser doesn't choke
 try {
-  if (import.meta && import.meta.env && import.meta.env.VITE_API_BASE) {
-    apiBase = import.meta.env.VITE_API_BASE;
+  const viteEnv = eval('import.meta.env'); // bypass parse-time syntax check
+  if (viteEnv && viteEnv.VITE_API_BASE) {
+    apiBase = viteEnv.VITE_API_BASE;
   }
 } catch (_) {
+  // ignore if not running in a Vite environment
 }
 
 const UploadForm = () => {
