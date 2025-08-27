@@ -67,5 +67,5 @@ random forests before. I decided to spend the most time with the neural network 
 (certainly not the XGBoost), so swapping between model archetectures was not a problem I encountered while retraining. 
 
 ## TO DOS
-The biggest missing piece is a deployed frontend with a finished UI. Eventually it will display prediction results following an upload, show model metrics in a dashboard, and have a demo mode with pre-selected files. Links and screenshots of it to come. 
+The biggest missing piece is a finished Frontend UI. Eventually it will display prediction results following an upload, show model metrics in a dashboard, and have a demo mode with pre-selected files. Links and screenshots of it to come. 
 Additionally, since retraining is done locally I will upload screenshots of the MLFlow dashboard as well. 
